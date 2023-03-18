@@ -1,6 +1,9 @@
 /* import bootstrap */
 @import "bootstrap/dist/css/bootstrap.rtl.min.css";
 
+/* import bootstrap-icon */
+@import "./bootstrap-icons.css";
+
 @font-face {
   font-family: "Vazir";
   src: url(../fonts/Vazir.eot);
