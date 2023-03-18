@@ -1,3 +1,7 @@
+
+import Feature from '~~/components/Feature.vue';
+
 <template>
-  index
+  <Slider />
+  <Feature />
 </template>
