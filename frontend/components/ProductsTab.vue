@@ -48,5 +48,4 @@ const {
 const { data: productsTab, error } = await useFetch(
   `${apiBase}/products/products-tabs`
 );
-console.log(productsTab);
 </script>
