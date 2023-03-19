@@ -4,4 +4,5 @@ import Feature from '~~/components/Feature.vue';
   <Slider />
   <Feature />
   <ProductsTab />
+  <AboutUs />
 </template>
