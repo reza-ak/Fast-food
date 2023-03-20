@@ -5,4 +5,5 @@ import Feature from '~~/components/Feature.vue';
   <Feature />
   <ProductsTab />
   <AboutUs />
+  <ContactUs />
 </template>
