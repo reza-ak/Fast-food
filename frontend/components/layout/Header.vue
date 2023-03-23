@@ -1,6 +1,3 @@
-
-import { NuxtLink } from '~~/.nuxt/components';
-
 <template>
   <div class="sub_page">
     <div class="hero_area">
@@ -27,16 +24,16 @@ import { NuxtLink } from '~~/.nuxt/components';
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mx-auto">
                 <li class="nav-item" :class="{active : $route.path === '/'}">
-                  <NuxtLink class="nav-link" href="/">صفحه اصلی</NuxtLink>
+                  <NuxtLink to="/" class="nav-link">صفحه اصلی</NuxtLink>
                 </li>
                 <li class="nav-item" :class="{active : $route.path === '/menu'}">
-                  <a class="nav-link" href="menu.html">منو</a>
+                  <NuxtLink to="/menu" class="nav-link">منو</NuxtLink>
                 </li>
                 <li class="nav-item" :class="{active : $route.path === '/about-us'}">
-                  <NuxtLink class="nav-link" href="/about-us">درباره ما</NuxtLink>
+                  <NuxtLink to="/about-us" class="nav-link">درباره ما</NuxtLink>
                 </li>
                 <li class="nav-item" :class="{active : $route.path === '/contact-us'}">
-                  <NuxtLink class="nav-link" href="/contact-us">تماس باما</NuxtLink>
+                  <NuxtLink to="/contact-us" class="nav-link">تماس باما</NuxtLink>
                 </li>
               </ul>
               <div class="user_option">
