@@ -1328,3 +1328,16 @@ a:focus {
 .Vue-Toastification__toast-body{
   font-family: "Vazir", Arial, Helvetica, sans-serif !important;
 }
+
+/* Fade in image */
+.fade-in-image{
+  animation: fadeIn 1s;
+}
+@keyframes fadeIn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}

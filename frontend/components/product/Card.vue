@@ -2,8 +2,11 @@
   <div class="box">
     <div>
       <div class="img-box">
-        <img :src="`/images/${props.product.primary_image}`" :alt="props.product.name">
-
+        <img
+          src="/preloader.png"
+          v-img="`/images/${props.product.primary_image}`"
+          :alt="props.product.name"
+        />
       </div>
       <div class="detail-box">
         <h5>{{ props.product.name }}</h5>
