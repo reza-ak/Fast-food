@@ -13,26 +13,36 @@
                 placeholder="نام محصول ..."
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
+                v-model="search"
               />
-              <a href="#" class="input-group-text" id="basic-addon2">
+              <button
+                @click="handleFilter({ search: search })"
+                class="input-group-text"
+                id="basic-addon2"
+              >
                 <i class="bi bi-search"></i>
-              </a>
+              </button>
             </div>
           </div>
+
           <hr />
+
           <div class="filter-list">
             <div class="form-label">دسته بندی</div>
             <ul>
               <li
-                v-for="categorie in categories.data"
-                :key="categorie.id"
+                v-for="category in categories.data"
+                :key="category.id"
                 class="my-2 cursor-pointer filter-list-active"
+                @click="handleFilter({ category: category.id })"
               >
-                {{ categorie.name }}
+                {{ category.name }}
               </li>
             </ul>
           </div>
+
           <hr />
+
           <div>
             <label class="form-label">مرتب سازی</label>
             <div class="form-check my-2">
@@ -41,6 +51,7 @@
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault1"
+                @click="handleFilter({ sortBy: 'max' })"
               />
               <label
                 class="form-check-label cursor-pointer"
@@ -56,6 +67,7 @@
                 name="flexRadioDefault"
                 id="flexRadioDefault2"
                 checked
+                @click="handleFilter({ sortBy: 'min' })"
               />
               <label
                 class="form-check-label cursor-pointer"
@@ -71,6 +83,7 @@
                 name="flexRadioDefault"
                 id="flexRadioDefault3"
                 checked
+                @click="handleFilter({ sortBy: 'bestseller' })"
               />
               <label
                 class="form-check-label cursor-pointer"
@@ -86,6 +99,7 @@
                 name="flexRadioDefault"
                 id="flexRadioDefault4"
                 checked
+                @click="handleFilter({ sortBy: 'sale' })"
               />
               <label
                 class="form-check-label cursor-pointer"
@@ -98,35 +112,52 @@
         </div>
 
         <div class="col-sm-12 col-lg-9">
-          <div v-if="pending" class="d-flex justify-content-center align-items-center h-100">
+          <div
+            v-if="pending"
+            class="d-flex justify-content-center align-items-center h-100"
+          >
             <div class="spinner-border"></div>
           </div>
 
-          <div v-else>
-            <div class="row gx-3">
-              <div
-                v-for="product in products.data.products"
-                :key="product.id"
-                class="col-sm-6 col-lg-4"
-              >
-                <ProductCard :product="product" />
-              </div>
+          <div class="h-100" v-else>
+            <div
+              v-if="products.data.products.length == 0"
+              class="d-flex justify-content-center align-items-center h-100"
+            >
+              <p>محصولی یافت نشد!</p>
             </div>
-  
-            <nav class="d-flex justify-content-center mt-5">
-              <ul class="pagination">
-                <li
-                  v-for="(link, index) in products.data.meta.links.slice(1, -1)"
-                  :key="index"
-                  class="page-item"
-                  :class="{ active: link.active }"
+            <div v-else>
+              <div class="row gx-3">
+                <div
+                  v-for="product in products.data.products"
+                  :key="product.id"
+                  class="col-sm-6 col-lg-4"
                 >
-                  <button @click="pagination(link.label)" class="page-link">
-                    {{ link.label }}
-                  </button>
-                </li>
-              </ul>
-            </nav>
+                  <ProductCard :product="product" />
+                </div>
+              </div>
+
+              <nav class="d-flex justify-content-center mt-5">
+                <ul class="pagination">
+                  <li
+                    v-for="(link, index) in products.data.meta.links.slice(
+                      1,
+                      -1
+                    )"
+                    :key="index"
+                    class="page-item"
+                    :class="{ active: link.active }"
+                  >
+                    <button
+                      @click="handleFilter({ page: link.label })"
+                      class="page-link"
+                    >
+                      {{ link.label }}
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </div>
@@ -136,18 +167,33 @@
 </template>
 
 <script setup>
+const router = useRouter();
+const route = useRoute();
 const {
   public: { apiBase },
 } = useRuntimeConfig();
 
 const { data: categories } = await useFetch(`${apiBase}/categories`);
 
-const query = ref({})
-const { data: products, refresh, pending } = await useFetch(() => `${apiBase}/menu`,{
-  query: query
+const query = ref({});
+query.value = route.query;
+const {
+  data: products,
+  refresh,
+  pending,
+} = await useFetch(() => `${apiBase}/menu`, {
+  query: query,
 });
-function pagination(pageNumber) {
-  query.value = {page: pageNumber}
-  refresh()
+
+function handleFilter(param) {
+  query.value = { ...route.query, ...param };
+  if(!param.hasOwnProperty('page')){
+    delete query.value.page
+  }
+  router.push({
+    path: "/menu",
+    query: query.value,
+  });
+  refresh();
 }
 </script>
