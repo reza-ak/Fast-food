@@ -33,8 +33,9 @@
               <li
                 v-for="category in categories.data"
                 :key="category.id"
-                class="my-2 cursor-pointer filter-list-active"
+                class="my-2 cursor-pointer"
                 @click="handleFilter({ category: category.id })"
+                :class="{'filter-list-active' : route.query.category == category.id}"
               >
                 {{ category.name }}
               </li>
@@ -51,6 +52,7 @@
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault1"
+                :checked="route.query.sortBy == 'max'"
                 @click="handleFilter({ sortBy: 'max' })"
               />
               <label
@@ -66,7 +68,7 @@
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault2"
-                checked
+                :checked="route.query.sortBy == 'min'"
                 @click="handleFilter({ sortBy: 'min' })"
               />
               <label
@@ -82,7 +84,7 @@
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault3"
-                checked
+                :checked="route.query.sortBy == 'bestseller'"
                 @click="handleFilter({ sortBy: 'bestseller' })"
               />
               <label
@@ -98,7 +100,7 @@
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault4"
-                checked
+                :checked="route.query.sortBy == 'sale'"
                 @click="handleFilter({ sortBy: 'sale' })"
               />
               <label
@@ -169,21 +171,22 @@
 <script setup>
 const router = useRouter();
 const route = useRoute();
-const {
-  public: { apiBase },
-} = useRuntimeConfig();
+const query = ref({});
+const {public: { apiBase }} = useRuntimeConfig();
 
+query.value = route.query;
 const { data: categories } = await useFetch(`${apiBase}/categories`);
 
-const query = ref({});
-query.value = route.query;
-const {
-  data: products,
-  refresh,
-  pending,
-} = await useFetch(() => `${apiBase}/menu`, {
+const {data: products, refresh, pending,} = await useFetch(() => `${apiBase}/menu`, {
   query: query,
 });
+
+watch(route,() => {
+  if(Object.keys(route.query).length == 0){
+    query.value = {}
+    refresh()
+  }
+})
 
 function handleFilter(param) {
   query.value = { ...route.query, ...param };
@@ -194,6 +197,5 @@ function handleFilter(param) {
     path: "/menu",
     query: query.value,
   });
-  refresh();
 }
 </script>
