@@ -40,6 +40,7 @@ const toast = useToast();
 const otp = ref(null);
 const errors = ref([]);
 const loading = ref(false);
+const {authUser} = useAuth();
 
 async function checkOtp() {
   if (otp.value == null) {
@@ -58,7 +59,7 @@ async function checkOtp() {
       body: { otp: otp.value },
     });
     toast.success("با موفقیت وارد شدید.");
-    console.log(data);
+    authUser.value = data
   } catch (error) {
     errors.value = Object.values(error.data.data.message).flat();
   } finally {
