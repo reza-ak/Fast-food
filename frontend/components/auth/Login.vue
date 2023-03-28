@@ -58,7 +58,7 @@ async function login() {
       method: "POST",
       body: { cellphone: phoneNumber.value },
     });
-    toast.success("کد تایید برای شما ارسال شد.");
+    toast.success("کد ورود برای شما ارسال شد.");
     emitOtp('showCheckOtpForm')
 
   } catch (error) {
