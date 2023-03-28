@@ -5,7 +5,8 @@
       <div class="row mt-5">
         <div class="col-md-4 offset-md-4">
           <div class="card">
-            <AuthLogin  />
+            <AuthCheckOtp v-if="showCheckOtpForm"/>
+            <AuthLogin v-else @showCheckOtpForm="checkOtp()"/>
           </div>
         </div>
       </div>
@@ -13,4 +14,11 @@
   </section>
   <!-- end login section -->
 </template>
+
+<script setup>
+  const showCheckOtpForm = ref(false)
+  function checkOtp() {
+    showCheckOtpForm.value = true
+  }
+</script>
 

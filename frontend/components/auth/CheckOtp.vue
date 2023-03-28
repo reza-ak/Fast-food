@@ -8,11 +8,11 @@
       </ul>
     </div>
     <div class="form_container">
-      <form @submit.prevent="login()">
+      <form @submit.prevent="checkOtp()">
         <div class="mb-3">
-          <label for="cellphone" class="form-label">شماره موبایل</label>
+          <label for="cellphone" class="form-label">کد تایید</label>
           <input
-            v-model="phoneNumber"
+            v-model="otp"
             type="text"
             class="form-control"
             id="cellphone"
@@ -23,7 +23,7 @@
           class="btn btn-primary btn-auth"
           :disabled="loading"
         >
-          ورود
+          تایید
           <div
             v-if="loading"
             class="spinner-border spinner-border-sm ms-2"
@@ -37,30 +37,26 @@
 <script setup>
 import { useToast } from "vue-toastification";
 const toast = useToast();
-const phoneNumber = ref(null);
+const otp = ref(null);
 const errors = ref([]);
 const loading = ref(false);
-const emitOtp = defineEmits(["showCheckOtpForm"])
 
-async function login() {
-  if (phoneNumber.value == null) {
-    toast.error("شماره موبایل الزامی است.");
+async function checkOtp() {
+  if (otp.value == null) {
+    toast.error("کد تایید الزامی است.");
     return;
   }
-  const pattern = /^(\+98|0)?9\d{9}$/;
-  if (!pattern.test(phoneNumber.value)) {
-    toast.error("فرمت شماره موبایل معتبر نیست.");
+  const pattern = /^[0-9]{6}$/;
+  if (!pattern.test(otp.value)) {
+    toast.error("فرمت کد تایید معتبر نیست.");
     return;
   }
   try {
     loading.value = true;
-    const data = await $fetch("/api/auth/login", {
+    const data = await $fetch("/api/auth/checkOtp", {
       method: "POST",
-      body: { cellphone: phoneNumber.value },
+      body: { otp: otp.value },
     });
-    toast.success("کد تایید برای شما ارسال شد.");
-    emitOtp('showCheckOtpForm')
-
   } catch (error) {
     errors.value = Object.values(error.data.data.message).flat();
   } finally {
