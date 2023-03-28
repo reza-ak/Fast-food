@@ -10,7 +10,7 @@
     <div class="form_container">
       <form @submit.prevent="checkOtp()">
         <div class="mb-3">
-          <label for="cellphone" class="form-label">کد تایید</label>
+          <label for="cellphone" class="form-label">کد ورود</label>
           <input
             v-model="otp"
             type="text"
@@ -43,12 +43,12 @@ const loading = ref(false);
 
 async function checkOtp() {
   if (otp.value == null) {
-    toast.error("کد تایید الزامی است.");
+    toast.error("کد ورود الزامی است.");
     return;
   }
   const pattern = /^[0-9]{6}$/;
   if (!pattern.test(otp.value)) {
-    toast.error("فرمت کد تایید معتبر نیست.");
+    toast.error("فرمت کد ورود معتبر نیست.");
     return;
   }
   try {
@@ -57,6 +57,8 @@ async function checkOtp() {
       method: "POST",
       body: { otp: otp.value },
     });
+    toast.success("با موفقیت وارد شدید.");
+    console.log(data);
   } catch (error) {
     errors.value = Object.values(error.data.data.message).flat();
   } finally {
