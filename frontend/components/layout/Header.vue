@@ -23,17 +23,28 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mx-auto">
-                <li class="nav-item" :class="{active : $route.path === '/'}">
+                <li class="nav-item" :class="{ active: $route.path === '/' }">
                   <NuxtLink to="/" class="nav-link">صفحه اصلی</NuxtLink>
                 </li>
-                <li class="nav-item" :class="{active : $route.path === '/menu'}">
+                <li
+                  class="nav-item"
+                  :class="{ active: $route.path === '/menu' }"
+                >
                   <NuxtLink to="/menu" class="nav-link">منو</NuxtLink>
                 </li>
-                <li class="nav-item" :class="{active : $route.path === '/about-us'}">
+                <li
+                  class="nav-item"
+                  :class="{ active: $route.path === '/about-us' }"
+                >
                   <NuxtLink to="/about-us" class="nav-link">درباره ما</NuxtLink>
                 </li>
-                <li class="nav-item" :class="{active : $route.path === '/contact-us'}">
-                  <NuxtLink to="/contact-us" class="nav-link">تماس باما</NuxtLink>
+                <li
+                  class="nav-item"
+                  :class="{ active: $route.path === '/contact-us' }"
+                >
+                  <NuxtLink to="/contact-us" class="nav-link"
+                    >تماس باما</NuxtLink
+                  >
                 </li>
               </ul>
               <div class="user_option">
@@ -45,7 +56,12 @@
                     3
                   </span>
                 </a>
-                <NuxtLink to="/auth/login" class="btn-auth"> ورود </NuxtLink>
+                <NuxtLink v-if="authUser === null" to="/auth/login" class="btn-auth">
+                  ورود
+                </NuxtLink>
+                <NuxtLink v-else to="/profile" class="btn-auth">
+                  پروفایل
+                </NuxtLink>
               </div>
             </div>
           </nav>
@@ -55,3 +71,7 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const { authUser } = useAuth();
+</script>
