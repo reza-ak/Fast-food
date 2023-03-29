@@ -16,6 +16,10 @@
 </template>
 
 <script setup>
+  definePageMeta({
+    middleware: 'guest'
+  })
+
   const showCheckOtpForm = ref(false)
   function checkOtp() {
     showCheckOtpForm.value = true
