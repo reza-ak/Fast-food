@@ -18,17 +18,20 @@
             id="cellphone"
           />
         </div>
-        <button
-          type="submit"
-          class="btn btn-primary btn-auth"
-          :disabled="loading"
-        >
-          تایید
-          <div
-            v-if="loading"
-            class="spinner-border spinner-border-sm ms-2"
-          ></div>
-        </button>
+        <div class="d-flex justify-content-between">
+          <button
+            type="submit"
+            class="btn btn-primary btn-auth"
+            :disabled="loading"
+          >
+            تایید
+            <div
+              v-if="loading"
+              class="spinner-border spinner-border-sm ms-2"
+            ></div>
+          </button>
+          <AuthResendOtp />
+        </div>
       </form>
     </div>
   </div>
