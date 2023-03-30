@@ -8,31 +8,25 @@
       </ul>
     </div>
     <div class="form_container">
-      <form @submit.prevent="checkOtp()">
-        <div class="mb-3">
-          <label for="cellphone" class="form-label">کد ورود</label>
-          <input
-            v-model="otp"
-            type="text"
-            class="form-control"
-            id="cellphone"
-          />
-        </div>
-        <div class="d-flex justify-content-between">
-          <button
-            type="submit"
-            class="btn btn-primary btn-auth"
-            :disabled="loading"
-          >
-            تایید
-            <div
-              v-if="loading"
-              class="spinner-border spinner-border-sm ms-2"
-            ></div>
-          </button>
-          <AuthResendOtp />
-        </div>
-      </form>
+      <div class="mb-3">
+        <label for="cellphone" class="form-label">کد ورود</label>
+        <input v-model="otp" type="text" class="form-control" id="cellphone" />
+      </div>
+      <div class="d-flex justify-content-between">
+        <button
+          type="submit"
+          class="btn btn-primary btn-auth"
+          :disabled="loading"
+          @click.prevent="checkOtp()"
+        >
+          تایید
+          <div
+            v-if="loading"
+            class="spinner-border spinner-border-sm ms-2"
+          ></div>
+        </button>
+        <AuthResendOtp @resend-otp-errors="(err) => errors = err" />
+      </div>
     </div>
   </div>
 </template>
@@ -43,7 +37,7 @@ const toast = useToast();
 const otp = ref(null);
 const errors = ref([]);
 const loading = ref(false);
-const {authUser} = useAuth();
+const { authUser } = useAuth();
 
 async function checkOtp() {
   if (otp.value == null) {
@@ -62,7 +56,8 @@ async function checkOtp() {
       body: { otp: otp.value },
     });
     toast.success("با موفقیت وارد شدید.");
-    authUser.value = data
+    authUser.value = data;
+    return (navigateTo('/profile'))
   } catch (error) {
     errors.value = Object.values(error.data.data.message).flat();
   } finally {
