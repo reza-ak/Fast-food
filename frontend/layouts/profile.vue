@@ -8,7 +8,7 @@
               <NuxtLink to="/profile">اطلاعات کاربر</NuxtLink>
             </li>
             <li class="list-group-item">
-              <NuxtLink to="/profile/address">آدرس ها</NuxtLink>
+              <NuxtLink to="/profile/addresses">آدرس ها</NuxtLink>
             </li>
             <li class="list-group-item">
               <NuxtLink to="/profile/orders">سفارشات</NuxtLink>
