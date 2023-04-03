@@ -17,8 +17,17 @@
       :incomplete-message="false"
       :actions="false"
       #default="{ value }"
+      id="createAddress"
     >
       <div class="card card-body">
+        <div v-if="errors.length > 0" class="alert alert-danger">
+          <ul class="mb-0">
+            <li v-for="(error, index) in errors" :key="index">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+
         <div class="row g-4">
           <div class="col col-md-6">
             <FormKit
@@ -154,18 +163,36 @@
 </template>
 
 <script setup>
+import { useToast } from "vue-toastification";
+import { reset } from "@formkit/core";
+
 const props = defineProps(["provinces", "cities"]);
 const cityEl = ref(null);
-
-const loading = ref(false);
-function create(formData) {
-  loading.value = true;
-}
 
 function changeProvince(el) {
   const id = props.cities.find(
     (item) => item.province_id == el.target.value
-  ).id;
-  cityEl.value.node.input(id);
+    ).id;
+    cityEl.value.node.input(id);
+  }
+  
+const loading = ref(false);
+const toast = useToast();
+const errors = ref([]);
+async function create(formData) {
+  try {
+    loading.value = true;
+    errors.value = [];
+    await $fetch("/api/profile/addresses/create", {
+      method: "POST",
+      body: formData,
+    });
+    reset('createAddress')
+    toast.success("آدرس جدید با موفقیت ایجاد شد.");
+  } catch (error) {
+    errors.value = Object.values(error.data.data.message).flat();
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
