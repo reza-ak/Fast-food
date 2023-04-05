@@ -17,7 +17,7 @@ class OrderItemsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product_primary_image' => url(env('PRODUCT_IMAGES_UPLOAD_PATH') . Product::find($this->product_id)->primary_image),
+            'product_primary_image' => Product::find($this->product_id)->primary_image,
             'product_name' => Product::find($this->product_id)->name,
             'price' => $this->price,
             'quantity' => $this->quantity,
