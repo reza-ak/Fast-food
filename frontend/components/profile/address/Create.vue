@@ -19,7 +19,7 @@
       #default="{ value }"
       id="createAddress"
     >
-      <div class="card card-body">
+      <div class="card card-body my-4">
         <div v-if="errors.length > 0" class="alert alert-danger">
           <ul class="mb-0">
             <li v-for="(error, index) in errors" :key="index">
@@ -42,7 +42,6 @@
                 required: 'فیلد عنوان الزامی است.',
               }"
               messages-class="form-text text-danger"
-              value="s"
             />
           </div>
           <div class="col col-md-6">
@@ -59,7 +58,6 @@
                 matches: 'فرمت شماره تماس وارد شده اشتباه است.',
               }"
               messages-class="form-text text-danger"
-              value="s"
             />
           </div>
           <div class="col col-md-6">
@@ -76,7 +74,6 @@
                 matches: 'فرمت کد پستی وارد شده اشتباه است.',
               }"
               messages-class="form-text text-danger"
-              value="s"
             />
           </div>
           <div class="col col-md-6">
@@ -143,7 +140,6 @@
                 required: 'فیلد آدرس الزامی است.',
               }"
               messages-class="form-text text-danger"
-              value="s"
             />
           </div>
         </div>
@@ -159,7 +155,6 @@
       </div>
     </FormKit>
   </div>
-  <!-- <hr /> -->
 </template>
 
 <script setup>
@@ -188,6 +183,7 @@ async function create(formData) {
       body: formData,
     });
     reset('createAddress')
+    refreshGetAddress()
     toast.success("آدرس جدید با موفقیت ایجاد شد.");
   } catch (error) {
     errors.value = Object.values(error.data.data.message).flat();
@@ -195,4 +191,6 @@ async function create(formData) {
     loading.value = false;
   }
 }
+
+const refreshGetAddress = inject('refreshGetAddress')
 </script>
