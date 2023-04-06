@@ -17,7 +17,7 @@
               <NuxtLink to="/profile/transactions">تراکنش ها</NuxtLink>
             </li>
             <li class="list-group-item">
-              <a href="#">خروج</a>
+              <a @click="logout" href="#">خروج</a>
             </li>
           </ul>
         </div>
@@ -29,3 +29,19 @@
     </div>
   </section>
 </template>
+
+<script setup>
+import { useToast } from 'vue-toastification';
+const { authUser } = useAuth();
+
+const toast = useToast()
+async function logout() {
+  await useFetch("/api/auth/logout", {
+    method: "POST",
+    headers: useRequestHeaders(["cookie"]),
+  });
+  authUser.value = null
+  toast.warning('خروج از حساب کاربری انجام شد.')
+  return navigateTo('/')
+}
+</script>
