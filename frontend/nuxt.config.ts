@@ -22,7 +22,8 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    "@formkit/nuxt",
     '@pinia/nuxt',
-    "@formkit/nuxt"
+    '@pinia-plugin-persistedstate/nuxt',
   ],
 });
