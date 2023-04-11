@@ -13,9 +13,11 @@
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^2.1.1",
     "@formkit/nuxt": "^0.16.4",
+    "@pinia/nuxt": "^0.4.8",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "leaflet": "^1.9.3",
+    "pinia": "^2.0.34",
     "vue": "^3.2.47",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-tabs-component": "^1.2.1"

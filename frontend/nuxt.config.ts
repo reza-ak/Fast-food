@@ -1,25 +1,28 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
-  
+
   app: {
     head: {
       htmlAttrs: {
         dir: "rtl",
-        lang: "fa"
-      }
-    }
+        lang: "fa",
+      },
+    },
   },
 
   runtimeConfig: {
     public: {
-      apiBase: "http://localhost:8000/api"
-    }
+      apiBase: "http://localhost:8000/api",
+    },
   },
 
-  build:{
-    transpile: ['vue-toastification'],
+  build: {
+    transpile: ["vue-toastification"],
   },
 
-  modules: ['@formkit/nuxt'],
-})
+  modules: [
+    '@pinia/nuxt',
+    "@formkit/nuxt"
+  ],
+});
