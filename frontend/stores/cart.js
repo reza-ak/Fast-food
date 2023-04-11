@@ -10,8 +10,14 @@ export const useCartStore = defineStore('cart', {
     }
   },
 
+  getters: {
+    count(state){
+      return state.cart.length
+    }
+  },
+
   actions: {
-    addToCart(product, count){
+    addToCart(product, count) {
       this.cart.push({
         ...product,
         qty: count
@@ -19,11 +25,11 @@ export const useCartStore = defineStore('cart', {
       toast.success('محصول به سبد خرید اضافه شد.')
     },
 
-    remove(id){
+    remove(id) {
       this.cart = this.cart.filter(product => product.id != id)
     }
   },
-  
+
   // با استفاده از کتابخانه pinia-plugin-persistedstate/nuxt و کد زیر اطلاعات موجود در state در داخل local storage قرار میگیرد 
   // به دلیل استفاده nuxt از ssr از کتابخانه زیر استفاده میشود
   persist: {
