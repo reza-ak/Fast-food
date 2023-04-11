@@ -19,11 +19,20 @@
               <p>{{ product.data.description }}</p>
 
               <div class="mt-5 d-flex">
-                <button class="btn-add">افزودن به سبد خرید</button>
+                <button @click="addToCart(product.data)" class="btn-add">
+                  افزودن به سبد خرید
+                </button>
                 <div class="input-counter ms-4">
-                  <span class="plus-btn"> + </span>
-                  <div class="input-number">1</div>
-                  <span class="minus-btn"> - </span>
+                  <span
+                    class="plus-btn"
+                    @click="
+                      () => quantity < product.data.quantity && quantity++
+                    "
+                  >
+                    +
+                  </span>
+                  <div class="input-number">{{ quantity }}</div>
+                  <span class="minus-btn" @click="quantity > 1 && quantity--"> - </span>
                 </div>
               </div>
             </div>
@@ -108,7 +117,11 @@
   <section class="food_section my-5">
     <div class="container">
       <div class="row gx-3">
-        <div v-for="product in randomProduct.data" :key="product.id" class="col-sm-6 col-lg-3">
+        <div
+          v-for="product in randomProduct.data"
+          :key="product.id"
+          class="col-sm-6 col-lg-3"
+        >
           <ProductCard :product="product" />
         </div>
       </div>
@@ -117,6 +130,8 @@
 </template>
 
 <script setup>
+import { useCartStore } from "~~/stores/cart";
+
 const route = useRoute();
 const {
   public: { apiBase },
@@ -129,4 +144,12 @@ const { data: product } = await useFetch(
 const { data: randomProduct } = await useFetch(
   `${apiBase}/random-products?count=4`
 );
+
+const quantity = ref(1);
+
+const cart = useCartStore();
+function addToCart(product) {
+  cart.remove(product.id);
+  cart.addToCart(product, quantity);
+}
 </script>
