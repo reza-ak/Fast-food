@@ -108,16 +108,7 @@
             </div>
             <div class="row mt-4">
               <div class="col-12 col-md-6">
-                <div class="input-group mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="کد تخفیف"
-                  />
-                  <button class="input-group-text" id="basic-addon2">
-                    اعمال کد تخفیف
-                  </button>
-                </div>
+                <CartCoupon />
               </div>
               <div
                 class="col-12 col-md-6 d-flex justify-content-end align-items-baseline"
