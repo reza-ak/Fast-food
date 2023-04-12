@@ -11,8 +11,11 @@ export const useCartStore = defineStore('cart', {
   },
 
   getters: {
-    count(state){
+    count(state) {
       return state.cart.length
+    },
+    allItems(state) {
+      return state.cart
     }
   },
 
@@ -27,6 +30,28 @@ export const useCartStore = defineStore('cart', {
 
     remove(id) {
       this.cart = this.cart.filter(product => product.id != id)
+    },
+
+    increment(id) {
+      const item = this.cart.find(product => product.id == id)
+      if (item) {
+        if (item.qty < item.quantity) {
+          item.qty++
+        }
+      }
+    },
+
+    decrement(id) {
+      const item = this.cart.find(product => product.id == id)
+      if (item) {
+        if (item.quantity > 1) {
+          item.qty--
+        }
+      }
+    },
+
+    clear() {
+      this.cart = []
     }
   },
 
