@@ -103,12 +103,14 @@
                     </tbody>
                   </table>
                 </div>
-                <button @click="cart.clear()" class="btn btn-primary mb-4">پاک کردن سبد خرید</button>
+                <button @click="cart.clear()" class="btn btn-primary mb-4">
+                  پاک کردن سبد خرید
+                </button>
               </div>
             </div>
             <div class="row mt-4">
               <div class="col-12 col-md-6">
-                <CartCoupon />
+                <CartCoupon :coupon="coupon" />
               </div>
               <div
                 class="col-12 col-md-6 d-flex justify-content-end align-items-baseline"
@@ -135,22 +137,34 @@
                         class="list-group-item d-flex justify-content-between"
                       >
                         <div>مجموع قیمت :</div>
-                        <div>535,000 تومان</div>
+                        <div>{{ NumberFormat(totalAmount) }} تومان</div>
                       </li>
                       <li
                         class="list-group-item d-flex justify-content-between"
                       >
                         <div>
                           تخفیف :
-                          <span class="text-danger ms-1">10%</span>
+                          <span class="text-danger ms-1"
+                            >{{ coupon.percent }}%</span
+                          >
                         </div>
-                        <div class="text-danger">53,500 تومان</div>
+                        <div class="text-danger">
+                          {{
+                            NumberFormat((totalAmount * coupon.percent) / 100)
+                          }}
+                          تومان
+                        </div>
                       </li>
                       <li
                         class="list-group-item d-flex justify-content-between"
                       >
                         <div>قیمت پرداختی :</div>
-                        <div>481,500 تومان</div>
+                        <div>
+                          {{
+                            NumberFormat(totalAmount - (totalAmount * coupon.percent) / 100)
+                          }}
+                          تومان
+                        </div>
                       </li>
                     </ul>
                     <button class="user_option btn-auth mt-4">پرداخت</button>
@@ -170,13 +184,19 @@ import { useToast } from "vue-toastification";
 import { useCartStore } from "~~/stores/cart";
 
 definePageMeta({
-  middleware: 'auth'
-})
+  middleware: "auth",
+});
 
 const toast = useToast();
 const cart = useCartStore();
 const countCartItems = computed(() => cart.count);
 const cartItems = computed(() => cart.allItems);
+const totalAmount = computed(() => cart.totalAmount);
+
+const coupon = reactive({
+  code: "",
+  percent: 0,
+});
 
 function removeFromCart(id) {
   cart.remove(id);
