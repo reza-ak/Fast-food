@@ -7,12 +7,13 @@
       aria-label="Default select example"
       @change="(el) => emit('setAddressId', el.target.value)"
     >
-    <option value="" selected>--</option>
+    <option value="" selected>انتخاب آدرس</option>
       <option
         v-for="address in addresses"
         :value="address.id"
         :key="address.id"
       >
+      {{ address.title }}
       </option>
     </select>
   </template>
