@@ -13,7 +13,7 @@
       id="basic-addon2"
     >
       اعمال کد تخفیف
-      <div v-if="loading" class="spinner-border spiner-border-sm ms-2"></div>
+      <div v-if="loading" class="spinner-border spinner-border-sm ms-2"></div>
     </button>
   </div>
 </template>
