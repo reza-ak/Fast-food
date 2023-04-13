@@ -115,8 +115,7 @@
               <div
                 class="col-12 col-md-6 d-flex justify-content-end align-items-baseline"
               >
-                <CartAddress @set-address-id="(id) => addressId = id"/>
-                  {{ addressId }}
+                <CartAddress @set-address-id="(id) => (addressId = id)" />
               </div>
             </div>
             <div class="row justify-content-center mt-5">
@@ -153,13 +152,19 @@
                         <div>قیمت پرداختی :</div>
                         <div>
                           {{
-                            NumberFormat(totalAmount - (totalAmount * coupon.percent) / 100)
+                            NumberFormat(
+                              totalAmount - (totalAmount * coupon.percent) / 100
+                            )
                           }}
                           تومان
                         </div>
                       </li>
                     </ul>
-                    <button class="user_option btn-auth mt-4">پرداخت</button>
+                    <CartPayment
+                      :coupon="coupon"
+                      :addressId="addressId"
+                      :cart="cartItems"
+                    />
                   </div>
                 </div>
               </div>
