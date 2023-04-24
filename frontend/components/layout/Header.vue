@@ -11,7 +11,7 @@
             </NuxtLink>
 
             <button
-              class="navbar-toggler"
+              class="navbar-toggler p-2"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent"
