@@ -6,7 +6,8 @@
         <div class="container">
           <nav class="navbar navbar-expand-lg custom_nav-container">
             <NuxtLink class="navbar-brand" href="/">
-              <span> webprog.io </span>
+              <!-- <span>FoodWeb</span> -->
+              <h1 class="fw-bold h2 text-light my-0"> FoodWeb </h1>
             </NuxtLink>
 
             <button
