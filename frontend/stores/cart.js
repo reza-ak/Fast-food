@@ -27,11 +27,17 @@ export const useCartStore = defineStore('cart', {
 
   actions: {
     addToCart(product, count) {
-      this.cart.push({
-        ...product,
-        qty: count
-      })
-      toast.success('محصول به سبد خرید اضافه شد.')
+      console.log("dd");
+      if (product.quantity == 0) {
+        toast.error('متاسفانه این محصول وجود ندارد.')
+        return ""
+      } else {
+        this.cart.push({
+          ...product,
+          qty: count
+        })
+        toast.success('محصول به سبد خرید اضافه شد.')
+      }
     },
 
     remove(id) {

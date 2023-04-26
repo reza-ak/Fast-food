@@ -19,9 +19,14 @@
               <p>{{ product.data.description }}</p>
 
               <div class="mt-5 d-flex">
-                <button @click="addToCart(product.data)" class="btn-add">
+                <button
+                  v-if="product.data.quantity != 0"
+                  @click="addToCart(product.data)"
+                  class="btn-add"
+                >
                   افزودن به سبد خرید
                 </button>
+                <button disabled v-else class="btn-add">ناموجود</button>
                 <div class="input-counter ms-4">
                   <span
                     class="plus-btn"
@@ -32,7 +37,9 @@
                     +
                   </span>
                   <div class="input-number">{{ quantity }}</div>
-                  <span class="minus-btn" @click="quantity > 1 && quantity--"> - </span>
+                  <span class="minus-btn" @click="quantity > 1 && quantity--">
+                    -
+                  </span>
                 </div>
               </div>
             </div>
