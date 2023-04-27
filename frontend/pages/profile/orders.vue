@@ -9,7 +9,7 @@
     <div v-if="data.orders.length == 0" class="d-flex justify-content-center align-items-center h-100">
       <h5>سفارشی یافت نشد !</h5>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive text-center mt-5 mt-lg-0">
       <table class="table align-middle">
         <thead>
           <tr>

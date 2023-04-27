@@ -12,7 +12,7 @@
     >
       <h5>تراکنشی یافت نشد !</h5>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive text-center mt-5 mt-lg-0">
       <table class="table align-middle">
         <thead>
           <tr>
@@ -36,7 +36,10 @@
                 >{{ transaction.status }}</span
               >
             </td>
-            <td>{{ transaction.trans_id }}</td>
+            <td>
+              <span v-if="transaction.status == 'ناموفق'">---</span>
+              <span v-else>{{ transaction.trans_id }}</span>
+            </td>
             <td>{{ transaction.created_at }}</td>
           </tr>
         </tbody>

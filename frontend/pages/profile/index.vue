@@ -13,8 +13,8 @@
       :incomplete-message="false"
       :actions="false"
     >
-      <div class="row g-4">
-        <div class="col col-md-6">
+      <div class="row g-4 pt-5 pt-lg-0">
+        <div class="col-12 col-md-6">
           <FormKit
             type="text"
             name="name"
@@ -31,7 +31,7 @@
           />
         </div>
 
-        <div class="col col-md-6">
+        <div class="col-12 col-md-6">
           <FormKit
             type="email"
             name="email"
@@ -49,7 +49,7 @@
           />
         </div>
 
-        <div class="col col-md-6">
+        <div class="col-12 col-md-6">
           <label class="form-label">شماره تلفن</label>
           <input
             type="text"
@@ -85,7 +85,7 @@ const loading = ref(false);
 async function edit(formData) {
   try {
     loading.value = true;
-    errors.value = []
+    errors.value = [];
     await $fetch("/api/profile/info/edit", {
       method: "POST",
       body: formData,

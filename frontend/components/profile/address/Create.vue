@@ -1,14 +1,16 @@
 <template>
-  <button
-    class="btn btn-primary"
-    type="button"
-    data-bs-toggle="collapse"
-    data-bs-target="#collapseExample"
-    aria-expanded="false"
-    aria-controls="collapseExample"
-  >
-    ایجاد آدرس جدید
-  </button>
+  <span class="d-flex justify-content-center">
+    <button
+      class="btn btn-primary mt-4 mt-lg-0"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#collapseExample"
+      aria-expanded="false"
+      aria-controls="collapseExample"
+    >
+      ایجاد آدرس جدید
+    </button>
+  </span>
 
   <div class="collapse mt-3" id="collapseExample">
     <FormKit
@@ -29,7 +31,7 @@
         </div>
 
         <div class="row g-4">
-          <div class="col col-md-6">
+          <div class="col-12 col-md-6">
             <FormKit
               type="text"
               name="title"
@@ -44,7 +46,7 @@
               messages-class="form-text text-danger"
             />
           </div>
-          <div class="col col-md-6">
+          <div class="col-12 col-md-6">
             <FormKit
               type="text"
               name="cellphone"
@@ -60,7 +62,7 @@
               messages-class="form-text text-danger"
             />
           </div>
-          <div class="col col-md-6">
+          <div class="col-12 col-md-6">
             <FormKit
               type="text"
               name="postal_code"
@@ -76,7 +78,7 @@
               messages-class="form-text text-danger"
             />
           </div>
-          <div class="col col-md-6">
+          <div class="col-12 col-md-6">
             <FormKit
               type="select"
               name="province_id"
@@ -100,7 +102,7 @@
               </option>
             </FormKit>
           </div>
-          <div class="col col-md-6">
+          <div class="col-12 col-md-6">
             <FormKit
               type="select"
               name="city_id"
@@ -126,7 +128,7 @@
               </option>
             </FormKit>
           </div>
-          <div class="col col-md-12">
+          <div class="col-12 col-md-12">
             <FormKit
               rows="5"
               type="textarea"
@@ -167,10 +169,10 @@ const cityEl = ref(null);
 function changeProvince(el) {
   const id = props.cities.find(
     (item) => item.province_id == el.target.value
-    ).id;
-    cityEl.value.node.input(id);
-  }
-  
+  ).id;
+  cityEl.value.node.input(id);
+}
+
 const loading = ref(false);
 const toast = useToast();
 const errors = ref([]);
@@ -182,8 +184,8 @@ async function create(formData) {
       method: "POST",
       body: formData,
     });
-    reset('createAddress')
-    refreshGetAddress()
+    reset("createAddress");
+    refreshGetAddress();
     toast.success("آدرس جدید با موفقیت ایجاد شد.");
   } catch (error) {
     errors.value = Object.values(error.data.data.message).flat();
@@ -192,5 +194,5 @@ async function create(formData) {
   }
 }
 
-const refreshGetAddress = inject('refreshGetAddress')
+const refreshGetAddress = inject("refreshGetAddress");
 </script>

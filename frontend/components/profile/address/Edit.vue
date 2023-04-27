@@ -16,7 +16,7 @@
       </div>
 
       <div class="row g-4">
-        <div class="col col-md-6">
+        <div class="col-12 col-md-6">
           <FormKit
             type="text"
             name="title"
@@ -32,7 +32,7 @@
             :value="props.address.title"
           />
         </div>
-        <div class="col col-md-6">
+        <div class="col-12 col-md-6">
           <FormKit
             type="text"
             name="cellphone"
@@ -49,7 +49,7 @@
             :value="props.address.cellphone"
           />
         </div>
-        <div class="col col-md-6">
+        <div class="col-12 col-md-6">
           <FormKit
             type="text"
             name="postal_code"
@@ -67,7 +67,7 @@
           />
         </div>
         <ClientOnly fallback-tag="span" fallback="در حال بارگذاری ...">
-          <div class="col col-md-6">
+          <div class="col-12 col-md-6">
             <FormKit
               type="select"
               name="province_id"
@@ -92,7 +92,7 @@
               </option>
             </FormKit>
           </div>
-          <div class="col col-md-6">
+          <div class="col-12 col-md-6">
             <FormKit
               type="select"
               name="city_id"
@@ -120,7 +120,7 @@
             </FormKit>
           </div>
         </ClientOnly>
-        <div class="col col-md-12">
+        <div class="col-12 col-md-12">
           <FormKit
             rows="5"
             type="textarea"
@@ -146,7 +146,7 @@
             class="spinner-border spinner-border-sm ms-2"
           ></div>
         </FormKit>
-        <ProfileAddressDelete :addressId="props.address.id"/>
+        <ProfileAddressDelete :addressId="props.address.id" />
       </div>
     </div>
   </FormKit>
