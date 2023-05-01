@@ -10,8 +10,8 @@
     </template>
     <section class="auth_section">
       <div class="container">
-        <div class="row mt-5">
-          <div class="col-md-5 offset-md-4">
+        <div class="row mt-5 d-flex justify-content-center">
+          <div class="col-md-5 mt-xl-5">
             <div v-if="errors.length > 0" class="alert alert-danger">
               <ul class="mb-0">
                 <li v-for="(error, index) in errors" :key="index">

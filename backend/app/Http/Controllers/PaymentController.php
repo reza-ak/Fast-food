@@ -70,23 +70,52 @@ class PaymentController extends ApiController
         ];
 
         // return $amounts;
+        function curl_post($url, $params)
+        {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+            ]);
+            $res = curl_exec($ch);
+            curl_close($ch);
+
+            return $res;
+        }
+
+        function token($api, $amount, $callback, $mobile, $email, $description)
+        {
+            return curl_post('https://sandbox.shepa.com/api/v1/token', [
+                'api' => $api,
+                'amount' => $amount,
+                'callback' => $callback,
+                'mobile' => $mobile,
+                'email' => $email,
+                'description' => $description,
+
+            ]);
+        }
 
         $api = env('PAY_IR_API_KEY');
         $amount = $payingAmount . '0';
-        $mobile = "شماره موبایل";
-        $factorNumber = "شماره فاکتور";
-        $description = "توضیحات";
-        $redirect = env('PAY_IR_CALLBACK_URL');
-        $result = $this->sendRequest($api, $amount, $redirect, $mobile, $factorNumber, $description);
+        $mobile = "09102911947";
+        $email = "test@gmail.com";
+        $description = "خرید تستی";
+        $callback = env('PAY_IR_CALLBACK_URL');
+        $result = token($api, $amount, $callback, $mobile, $email, $description);
         $result = json_decode($result);
-        if ($result->status) {
-            OrderController::create($request, $coupon, $amounts, $result->token);
-            $go = "https://pay.ir/pg/$result->token";
+
+        if (!empty($result->success)) {
+            OrderController::create($request, $coupon, $amounts, $result->result->token);
             return $this->successResponse([
-                'url' => $go
+                'url' => $result->result->url
             ]);
         } else {
-            return $this->errorResponse($result->errorMessage, 422);
+            return $this->errorResponse($result->errors, 0);
         }
     }
 
@@ -94,77 +123,70 @@ class PaymentController extends ApiController
     {
         $validator = Validator::make($request->all(), [
             'token' => 'required',
-            'status' => 'required|integer'
+            'status' => 'required'
         ]);
 
         if ($validator->fails()) {
             return $this->errorResponse($validator->messages(), 422);
         }
 
-        $api = env('PAY_IR_API_KEY');
-        $token = $request->token;
-        $result = json_decode($this->verifyRequest($api, $token));
+        function curl_post($url, $params)
+        {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+            ]);
+            $res = curl_exec($ch);
+            curl_close($ch);
 
-        if (isset($result->status)) {
-            if ($result->status == 1) {
-                if (Transaction::where('trans_id', $result->transId)->exists()) {
-                    return $this->successResponse([
-                        'status' => false,
-                        'error' => 'این تراکنش قبلا توی سیستم ثبت شده است'
-                    ], 200);
-                }
-                OrderController::update($token, $result->transId);
+            return $res;
+        }
+
+        function verify($api, $token, $amount)
+        {
+            return curl_post('https://sandbox.shepa.com/api/v1/verify', [
+                'api' => $api,
+                'token' => $token,
+                'amount' => $amount,
+            ]);
+        }
+
+        if (!empty($request->status) && $request->status == "success") {
+            $api = env('PAY_IR_API_KEY');
+            $token = $request->token;
+            $trans = Transaction::where('token', $request->token)->first();
+            $order = Order::where('id', $trans->order_id)->first();
+            $amount = $order->paying_amount . 0;
+            $result = json_decode(verify($api, $token, $amount));
+            if ($result->success) {
+                OrderController::update($token, $result->result->transaction_id);
                 return $this->successResponse([
                     'status' => true,
-                    'transId' => $result->transId
+                    'transId' => $result->result->transaction_id
                 ], 200);
             } else {
-                return $this->errorResponse(['error' => ['تراکنش با خطا مواجه شد']], 422);
+                if ($result->errorCode == 3) {
+                    return $this->successResponse([
+                        'status' => false,
+                        'error' => 'این تراکنش قبلا در سیستم ثبت شده است.'
+                    ], 200);
+                } else {
+                    return $this->successResponse([
+                        'status' => false,
+                        'error' => 'تراکنش شما ناموفق بود'
+                    ], 200);
+                }
             }
         } else {
-            if ($request->status == 0) {
-                return $this->successResponse([
-                    'status' => false,
-                    'error' => 'تراکنش شما ناموفق بود'
-                ], 200);
-            }
+            return $this->successResponse([
+                'status' => false,
+                'error' => 'تراکنش شما ناموفق بود.'
+            ], 200);
         }
-    }
-
-    public function sendRequest($api, $amount, $redirect, $mobile = null, $factorNumber = null, $description = null)
-    {
-        return $this->curl_post('https://pay.ir/pg/send', [
-            'api'          => $api,
-            'amount'       => $amount,
-            'redirect'     => $redirect,
-            'mobile'       => $mobile,
-            'factorNumber' => $factorNumber,
-            'description'  => $description,
-        ]);
-    }
-
-    function verifyRequest($api, $token)
-    {
-        return $this->curl_post('https://pay.ir/pg/verify', [
-            'api'     => $api,
-            'token' => $token,
-        ]);
-    }
-
-    public function curl_post($url, $params)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-        ]);
-        $res = curl_exec($ch);
-        curl_close($ch);
-
-        return $res;
     }
 }
