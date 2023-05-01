@@ -11,7 +11,7 @@
     <section class="auth_section">
       <div class="container">
         <div class="row mt-5 d-flex justify-content-center">
-          <div class="col-md-5 mt-xl-5">
+          <div class="col-md-7 col-lg-5 mt-xl-5">
             <div v-if="errors.length > 0" class="alert alert-danger">
               <ul class="mb-0">
                 <li v-for="(error, index) in errors" :key="index">
@@ -36,20 +36,20 @@
                     <h5 class="mt-3 text-danger">{{ payment.error }}</h5>
                   </template>
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between verify-button">
                   <NuxtLink
                     v-if="payment.status"
                     to="/profile/orders"
-                    class="btn btn-primary"
+                    class="btn btn-primary px-3"
                     >مشاهده سفارش</NuxtLink
                   >
                   <NuxtLink
                     v-else="payment.status"
                     to="/cart"
-                    class="btn btn-primary"
+                    class="btn btn-primary px-3"
                     >مشاهده سبد خرید</NuxtLink
                   >
-                  <NuxtLink to="/" class="btn btn-dark"
+                  <NuxtLink to="/" class="btn btn-dark px-3"
                     >بازگشت به سایت</NuxtLink
                   >
                 </div>
