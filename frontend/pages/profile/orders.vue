@@ -60,7 +60,7 @@
                         aria-label="Close"
                       ></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body overflow-auto">
                       <table class="table align-middle">
                         <thead>
                           <tr>
