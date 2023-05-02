@@ -28,13 +28,14 @@
             <div class="row gy-5">
               <div class="col-12">
                 <div class="table-responsive">
-                  <table class="table align-middle">
+                  <table class="table align-middle text-center">
                     <thead>
                       <tr>
                         <th>محصول</th>
                         <th>نام</th>
                         <th>قیمت</th>
                         <th>تعداد</th>
+                        <th>وضعیت</th>
                         <th>قیمت کل</th>
                       </tr>
                     </thead>
@@ -83,6 +84,15 @@
                               -
                             </span>
                           </div>
+                        </td>
+                        <td>
+                          <span
+                            v-if="item.quantity < item.qty"
+                            class="text-danger"
+                          >
+                            ناموجود
+                          </span>
+                          <span v-else class="text-success"> موجود </span>
                         </td>
                         <td>
                           <span v-if="item.is_sale">
@@ -199,5 +209,17 @@ const coupon = reactive({
 function removeFromCart(id) {
   cart.remove(id);
   toast.warning("محصول مورد نظر از سبد خرید شما حذف شد.");
+}
+
+for (let i = 0; i < cartItems.value.length; i++) {
+  const product = cartItems.value[i];
+  const {
+    public: { apiBase },
+  } = useRuntimeConfig();
+  try {
+    const data = await $fetch(`${apiBase}/products/${product.slug}`);
+    cart.remove(data.data.id);
+    cart.addToCartNoMessage(data.data, product.qty);
+  } catch (error) {}
 }
 </script>

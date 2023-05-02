@@ -27,7 +27,6 @@ export const useCartStore = defineStore('cart', {
 
   actions: {
     addToCart(product, count) {
-      console.log("dd");
       if (product.quantity == 0) {
         toast.error('متاسفانه این محصول وجود ندارد.')
         return ""
@@ -38,6 +37,13 @@ export const useCartStore = defineStore('cart', {
         })
         toast.success('محصول به سبد خرید اضافه شد.')
       }
+    },
+
+    addToCartNoMessage(product, count) {
+      this.cart.push({
+        ...product,
+        qty: count
+      })
     },
 
     remove(id) {
