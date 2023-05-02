@@ -35,7 +35,9 @@
                 :key="category.id"
                 class="my-2 cursor-pointer"
                 @click="handleFilter({ category: category.id })"
-                :class="{'filter-list-active' : route.query.category == category.id}"
+                :class="{
+                  'filter-list-active': route.query.category == category.id,
+                }"
               >
                 {{ category.name }}
               </li>
@@ -113,7 +115,7 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-lg-9">
+        <div ref="element" class="col-sm-12 col-lg-9">
           <div
             v-if="pending"
             class="d-flex justify-content-center align-items-center h-100"
@@ -172,26 +174,34 @@
 const router = useRouter();
 const route = useRoute();
 const query = ref({});
-const {public: { apiBase }} = useRuntimeConfig();
+const {
+  public: { apiBase },
+} = useRuntimeConfig();
 
 query.value = route.query;
 const { data: categories } = await useFetch(`${apiBase}/categories`);
 
-const {data: products, refresh, pending,} = await useFetch(() => `${apiBase}/menu`, {
+const {
+  data: products,
+  refresh,
+  pending,
+} = await useFetch(() => `${apiBase}/menu`, {
   query: query,
 });
 
-watch(route,() => {
-  if(Object.keys(route.query).length == 0){
-    query.value = {}
-    refresh()
+const element = ref(null);
+watch(route, () => {
+  if (Object.keys(route.query).length == 0) {
+    query.value = {};
+    refresh();
   }
-})
+  window.scrollTo(0, 0);
+});
 
 function handleFilter(param) {
   query.value = { ...route.query, ...param };
-  if(!param.hasOwnProperty('page')){
-    delete query.value.page
+  if (!param.hasOwnProperty("page")) {
+    delete query.value.page;
   }
   router.push({
     path: "/menu",
