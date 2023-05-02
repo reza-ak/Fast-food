@@ -49,10 +49,10 @@ class Product extends Model
 
             switch ($sortBy) {
                 case 'max':
-                    $query->where('quantity', '>', 0)->orderBy('price', 'desc');
+                    $query->orderBy('price', 'desc');
                     break;
                 case 'min':
-                    $query->where('quantity', '>', 0)->orderBy('price');
+                    $query->orderBy('price');
                     break;
                 case 'bestseller':
                     $orders = Order::where('payment_status', 1)->get();
@@ -73,7 +73,7 @@ class Product extends Model
                     $query->whereIn('id', $productsId)->orderByRaw($rawOrder);
                     break;
                 case 'sale':
-                    $query->where('quantity', '>', 0)->where('sale_price', '!=', 0)->where('date_on_sale_from', '<', Carbon::now())->where('date_on_sale_to', '>', Carbon::now());
+                    $query->where('sale_price', '!=', 0)->where('date_on_sale_from', '<', Carbon::now())->where('date_on_sale_to', '>', Carbon::now());
                     break;
                 default:
                     $query;
