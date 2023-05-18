@@ -144,3 +144,8 @@ body {
 .dir-ltr {
   direction: ltr;
 }
+
+/* vue-toastification */
+.Vue-Toastification__toast-body{
+  font-family: "Vazir", Arial, Helvetica, sans-serif !important;
+}
