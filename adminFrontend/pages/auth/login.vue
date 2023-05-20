@@ -33,7 +33,8 @@
 import { useToast } from 'vue-toastification';
 
   definePageMeta({
-    layout: false
+    layout: false,
+    middleware: "guest"
   })
 
   const formData = reactive({
@@ -44,6 +45,7 @@ import { useToast } from 'vue-toastification';
   const toast = useToast()
   const errors = ref([])
   const loading = ref(false)
+  const { authUser } = useAuth();
   async function login() {
     if (formData.email === '' || formData.password === '') {
       toast.error("لطفا ایمیل و پسورد خود را وارد کنید.")
@@ -56,7 +58,9 @@ import { useToast } from 'vue-toastification';
         method: 'POST',
         body: formData
       })
-      console.log(user);
+      authUser.value = user
+      toast.success("با موفقیت وارد پنل شدید.")
+      return navigateTo('/')
     } catch (error) {
       errors.value = Object.values(error.data.data.message).flat()
     }finally{
