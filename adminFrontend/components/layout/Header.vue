@@ -17,9 +17,25 @@
     <div class="w-100"></div>
     <div class="navbar-nav">
       <div class="nav-item text-nowrap d-flex align-items-center">
-        <span class="nav-link">علی شیخ</span>
-        <a class="nav-link px-3" href="#">خروج</a>
+        <span class="nav-link">{{ authUser.name }}</span>
+        <a @click="logout" class="nav-link px-3" href="#">خروج</a>
       </div>
     </div>
   </header>
 </template>
+
+<script setup>
+import { useToast } from 'vue-toastification';
+
+const toast = useToast()
+const {authUser} = useAuth()
+async function logout() {
+  const { data } = await useFetch("/api/auth/logout", {
+    method: "POST",
+  });
+  
+  authUser.value = null
+  toast.warning("از حساب کاربری خود خارج شدید.")
+  return navigateTo('/auth/login')
+}
+</script>
