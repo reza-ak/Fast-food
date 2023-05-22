@@ -6,16 +6,16 @@
     <div class="position-sticky pt-3">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="index.html">
+          <NuxtLink class="nav-link" :class="{active: $route.path == '/'}" aria-current="page" to="/">
             <i class="bi bi-grid me-2"></i>
             داشبورد
-          </a>
+          </NuxtLink>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <NuxtLink class="nav-link" :class="{active: $route.path == '/users'}" to="/users">
             <i class="bi bi-people me-2"></i>
             کاربران
-          </a>
+          </NuxtLink>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="./products.html">
@@ -51,3 +51,8 @@
     </div>
   </nav>
 </template>
+
+
+<script setup>
+const route = useRoute()
+</script>
