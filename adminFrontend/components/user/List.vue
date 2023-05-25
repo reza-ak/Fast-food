@@ -18,7 +18,7 @@
           <td>{{ user.created_at }}</td>
           <td>
             <div class="d-flex">
-              <button class="btn btn-sm btn-outline-dark me-2">نمایش</button>
+              <NuxtLink :to="`/users/${user.id}`" class="btn btn-sm btn-outline-dark me-2">نمایش</NuxtLink>
               <button class="btn btn-sm btn-dark">ویرایش</button>
             </div>
           </td>
