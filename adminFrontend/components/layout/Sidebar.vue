@@ -12,7 +12,7 @@
           </NuxtLink>
         </li>
         <li class="nav-item">
-          <NuxtLink class="nav-link" :class="{active: $route.path == '/users'}" to="/users">
+          <NuxtLink class="nav-link" :class="{active: $route.path.includes('/users')}" to="/users">
             <i class="bi bi-people me-2"></i>
             کاربران
           </NuxtLink>
