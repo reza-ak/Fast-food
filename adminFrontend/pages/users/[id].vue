@@ -41,6 +41,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: "auth",
+});
+
 const route = useRoute();
 
 const { data: user } = await useFetch(() => "/api/global", {

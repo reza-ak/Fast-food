@@ -106,9 +106,6 @@
           <FormKit
             type="submit"
             input-class="btn btn-outline-dark mt-3"
-            messages-class="form-text text-danger"
-            validation="required"
-            :validation-messages="{ required: 'فیلد رمز عبور الزامی است.' }"
           >
             ایجاد کاربر
             <div
