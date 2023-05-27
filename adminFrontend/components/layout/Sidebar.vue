@@ -18,10 +18,10 @@
           </NuxtLink>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./products.html">
+          <NuxtLink class="nav-link" :class="{active: $route.path.includes('/products')}" to="/products">
             <i class="bi bi-box-seam me-2"></i>
             محصولات
-          </a>
+          </NuxtLink>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
