@@ -40,8 +40,6 @@ const { data: products, refresh } = await useFetch(() => "/api/global", {
   headers: useRequestHeaders(["cookie"]),
 });
 
-console.log("products", products);
-
 function paginate(number) {
   page.value = number;
   refresh();

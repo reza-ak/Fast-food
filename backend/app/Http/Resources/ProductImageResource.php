@@ -17,8 +17,8 @@ class ProductImageResource extends JsonResource
         return [
             'id' => $this->id,
             'product_id' => $this->product_id,
-            // 'image' => url(env('PRODUCT_IMAGES_UPLOAD_PATH') . $this->image)
-            'image' => ($this->image)
+            'image' => url(env('PRODUCT_IMAGES_UPLOAD_PATH') . $this->image)
+            // 'image' => ($this->image)
         ];
     }
 }

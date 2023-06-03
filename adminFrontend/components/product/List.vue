@@ -17,7 +17,7 @@
           <td>
             <img
               src="/preloader.png"
-              v-img="`/images/${product.primary_image}`"
+              v-img="`${product.primary_image}`"
               :alt="product.name"
               width="80"
               height="53"

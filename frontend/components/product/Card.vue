@@ -4,7 +4,7 @@
       <div class="img-box">
         <img
           src="/preloader.png"
-          v-img="`/images/${props.product.primary_image}`"
+          v-img="`${props.product.primary_image}`"
           :alt="props.product.name"
         />
       </div>
