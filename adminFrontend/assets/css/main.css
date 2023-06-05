@@ -146,6 +146,12 @@ body {
 }
 
 /* vue-toastification */
-.Vue-Toastification__toast-body{
+.Vue-Toastification__toast-body {
   font-family: "Vazir", Arial, Helvetica, sans-serif !important;
+}
+
+/* primary image */
+.remove-icon-image {
+  top: 5px;
+  right: 15px;
 }
