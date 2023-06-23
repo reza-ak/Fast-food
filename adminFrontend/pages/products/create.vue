@@ -105,7 +105,7 @@
               messages-class="form-text text-danger"
             />
           </div>
-          
+
           <div class="col-12 col-md-3 mb-3">
             <FormKit
               type="text"
@@ -117,6 +117,74 @@
               validation="number"
               :validation-messages="{
                 number: 'فیلد قیمت حراجی باید عددی باشد.',
+              }"
+              messages-class="form-text text-danger"
+            />
+          </div>
+
+          <div class="col-12 col-md-3 mb-3">
+            <label class="form-label">تاریخ شروع حراجی</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-clock"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                id="sale-date-from-picker"
+              />
+            </div>
+            <!-- display-format یا نحوه نمایش به صورت جلالی -->
+            <!-- format فرمت تاریخی که برمیگرداند میلادی هست چون API گفته -->
+            <date-picker
+              v-model="saleDateFrom"
+              type="datetime"
+              format="YYYY-MM-DD HH:mm:ss"
+              display-format="HH:mm jYYYY-jMM-jDD"
+              custom-input="#sale-date-from-picker"
+            />
+          </div>
+
+          <div class="col-12 col-md-3 mb-3">
+            <label class="form-label">تاریخ پایان حراجی</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="bi bi-clock"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                id="sale-date-to-picker"
+              />
+            </div>
+            <date-picker
+              v-model="saleDateTo"
+              type="datetime"
+              format="YYYY-MM-DD HH:mm:ss"
+              display-format="HH:mm jYYYY-jMM-jDD"
+              custom-input="#sale-date-to-picker"
+            />
+          </div>
+
+          <div class="col-12 col-md-3 mb-3">
+            <label for="images" class="form-label">تصاویر</label>
+            <input
+              @change="imagesFile"
+              class="form-control"
+              type="file"
+              id="formFile"
+              multiple
+            />
+          </div>
+
+          <div class="col-12">
+            <FormKit
+              type="textarea"
+              rows="5"
+              name="description"
+              id="description"
+              label="توضیحات"
+              label-class="form-label"
+              input-class="form-control"
+              validation="required"
+              :validation-messages="{
+                required: 'فیلد توضیحات باید عددی باشد.',
               }"
               messages-class="form-text text-danger"
             />
@@ -146,14 +214,24 @@ definePageMeta({
 
 const loading = ref(false);
 const primaryImage = ref(null);
+const saleDateFrom = ref(null);
+const saleDateTo = ref(null);
+const images = ref(null);
 
 const { data: categories } = await useFetch(() => "/api/global", {
   query: { url: "/categories" },
   headers: useRequestHeaders(["cookie"]),
 });
-console.log(categories);
+
+function imagesFile(el) {
+  images.value = el.target.files;
+}
+
 async function create(formData) {
-  console.log(primaryImage);
   console.log(formData);
+  console.log(primaryImage);
+  console.log(saleDateFrom);
+  console.log(saleDateTo);
+  console.log(images);
 }
 </script>
