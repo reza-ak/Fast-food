@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="d-flex justify-content-center pb-5">
+    <div class="d-flex justify-content-center pb-3">
       <div v-if="primaryImage" class="position-relative">
         <img
           :src="primaryImage"
