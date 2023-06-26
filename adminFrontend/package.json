@@ -16,6 +16,8 @@
     "@amcharts/amcharts5": "^5.3.12",
     "@formkit/nuxt": "^0.17.2",
     "bootstrap": "^5.2.3",
+    "form-data": "^4.0.0",
+    "h3-formidable": "^0.3.6",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-persian-datetime-picker": "^1.2.2"
   }

@@ -184,7 +184,7 @@
               input-class="form-control"
               validation="required"
               :validation-messages="{
-                required: 'فیلد توضیحات باید عددی باشد.',
+                required: 'فیلد توضیحات الزامی است.',
               }"
               messages-class="form-text text-danger"
             />
@@ -208,11 +208,16 @@
 </template>
 
 <script setup>
+import { useToast } from "vue-toastification";
+
 definePageMeta({
   middleware: "auth",
 });
 
 const loading = ref(false);
+const errors = ref([]);
+const toast = useToast();
+
 const primaryImage = ref(null);
 const saleDateFrom = ref(null);
 const saleDateTo = ref(null);
@@ -227,11 +232,38 @@ function imagesFile(el) {
   images.value = el.target.files;
 }
 
-async function create(formData) {
-  console.log(formData);
-  console.log(primaryImage);
-  console.log(saleDateFrom);
-  console.log(saleDateTo);
-  console.log(images);
+async function create(data) {
+  // API ورودی های را به صورت formData میخواهد چون تصویر داریم
+  // در حالت کلی اگر فایل داشته باشیم باید از formData استفاده کنیم
+  const formData = new FormData();
+  formData.append("primary_image", primaryImage.value);
+  formData.append("name", data.name);
+  formData.append("category_id", data.category_id);
+  formData.append("status", data.status);
+  formData.append("price", data.price);
+  formData.append("quantity", data.quantity);
+  formData.append("sale_price", data.sale_price);
+  formData.append("date_on_sale_from", saleDateFrom.value);
+  formData.append("date_on_sale_to", saleDateTo.value);
+  formData.append("description", data.description);
+  for (let index = 0; index < images.value.length; index++) {
+    formData.append("images", images.value[index]);
+  }
+
+  try {
+    loading.value = true;
+    errors.value = [];
+    // چون فایل داریم بخاطر همین از API global استفاده نکردیم
+    await $fetch("/api/products/create", {
+      method: 'POST',
+      body: formData
+    });
+    toast.success("ایجاد محصول با موفقیت انجام شد.");
+    return navigateTo("/products");
+  } catch (error) {
+    errors.value = Object.values(error.data.message).flat();
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
