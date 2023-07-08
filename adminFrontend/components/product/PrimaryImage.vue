@@ -2,12 +2,7 @@
   <div class="row">
     <div class="d-flex justify-content-center pb-3">
       <div v-if="primaryImage" class="position-relative">
-        <img
-          :src="primaryImage"
-          width="350"
-          height="220"
-          alt="primary image"
-        />
+        <img :src="primaryImage" width="350" height="220" alt="primary image" />
         <div class="position-absolute remove-icon-image">
           <i
             @click="removeImage"
@@ -41,8 +36,14 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['setPrimaryImage']);
-const primaryImage = ref(null);
+const emit = defineEmits(["setPrimaryImage"]);
+const props = defineProps({
+  'primaryImage': {
+    type: String,
+    default: null
+  },
+});
+const primaryImage = ref(props.primaryImage);
 const loading = ref(false);
 
 function imageFile(el) {
@@ -53,11 +54,11 @@ function imageFile(el) {
     primaryImage.value = reader.result.toString();
     loading.value = false;
   };
-  emit('setPrimaryImage', el.target.files[0]);
+  emit("setPrimaryImage", el.target.files[0]);
 }
 
 function removeImage() {
   primaryImage.value = null;
-  emit('setPrimaryImage', null);
+  emit("setPrimaryImage", null);
 }
 </script>
