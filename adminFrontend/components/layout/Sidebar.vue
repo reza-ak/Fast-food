@@ -24,10 +24,10 @@
           </NuxtLink>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <NuxtLink class="nav-link" :class="{active: $route.path.includes('/categories')}" to="/categories">
             <i class="bi bi-grid-3x3-gap me-2"></i>
             دسته بندی
-          </a>
+          </NuxtLink>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
