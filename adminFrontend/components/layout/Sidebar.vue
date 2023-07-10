@@ -36,10 +36,10 @@
           </NuxtLink>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-currency-dollar me-2"></i>
+          <NuxtLink class="nav-link" :class="{active: $route.path.includes('/transactions')}" to="/transactions">
+            <i class="bi bi-grid-3x3-gap me-2"></i>
             تراکنش ها
-          </a>
+          </NuxtLink>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
